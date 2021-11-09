@@ -35,14 +35,14 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->file('image')){
-            $image_name = $request->file('image')->store('images','public');
+        if ($request->file('image')){
+            $image_name = $request->file('image')->store('images', 'public');
         }
 
-        Articles::create([
+        Article::create([
             'title' => $request->title,
             'content' => $request->content,
-            'featured_image' => $request->image_name,
+            'featured_image' => $image_name,
         ]);
         return 'Artikel berhasil disimpan';
     }
@@ -64,11 +64,9 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        $article = Article::find($id);
-
-        return view('articles.edit', ['article' => $article]);
+        //
     }
 
     /**
@@ -78,19 +76,9 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-        $article->title = $request->title;
-        $article->content = $request->content;
-
-        if ($article->featured_image && file_exists(storage_path('app/public/' . $article->featured_image))){
-            \storage::delete('public/' . $article->featured_image);
-        }
-        $image_name = $request->file('image')->store('image', 'public');
-        $article->featured_image = $image_name;
-
-        $article->save();
-        return 'Artikel berhasil diubah';
+        //
     }
 
     /**
